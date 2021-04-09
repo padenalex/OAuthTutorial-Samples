@@ -1,0 +1,23 @@
+@model object
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>login</title>
+</head>
+<body>
+<div>
+    <h1>login</h1>
+    <form action="/Home/Login" method="post">
+        <input type="text" name="username" value="" />
+        <input type="text" name="password" value="" />
+        <button type="submit">Login</button>
+    </form>
+</div>
+</body>
+</html>
