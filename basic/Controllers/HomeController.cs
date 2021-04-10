@@ -19,6 +19,12 @@ namespace basic.Controllers
         {
             return View();
         }
+        
+        [Authorize(Policy = "Claim.DoB")]
+        public IActionResult SecretPolicy()
+        {
+            return View();
+        }
 
         public IActionResult Authenticate()
         {
@@ -26,6 +32,7 @@ namespace basic.Controllers
             {
                 new Claim(ClaimTypes.Name, "Bob"),
                 new Claim(ClaimTypes.Email, "Bob@Bob.com"),
+                new Claim(ClaimTypes.DateOfBirth, "01/01/2000"),
                 new Claim("MyOwnClaimType", "BobCustomClaim"),
             };
             
