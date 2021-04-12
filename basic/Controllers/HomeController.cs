@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,12 @@ namespace basic.Controllers
 {
     public class HomeController : Controller
     {
-        // GET
+        private readonly IAuthorizationService _authorizationService;
+        public HomeController(IAuthorizationService authorizationService)
+        {
+            _authorizationService = authorizationService;
+        }
+        
         public IActionResult Index()
         {
             return View();
@@ -51,6 +57,20 @@ namespace basic.Controllers
             HttpContext.SignInAsync(userPrincipal);
             
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DoStuff()
+        {
+            var builder = new AuthorizationPolicyBuilder("Schema");
+            var customPolicy = builder.RequireClaim("Hello").Build();
+            var result = await _authorizationService.AuthorizeAsync(User, "Claim.DoB");
+
+            if (result.Succeeded)
+            {
+                return View("Index");
+            }
+
+            return View();
         }
     }
 }
